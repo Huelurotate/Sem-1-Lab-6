@@ -54,7 +54,6 @@ void manual_input(int*** arr, int* rows)
 
 	while (1)
 	{
-		int* current_row = NULL;
 		int col = 0;
 
 		printf("\nEnter the elements for row number %d(Enter - stop):\n", (*rows + 1));
@@ -71,9 +70,9 @@ void manual_input(int*** arr, int* rows)
 				}
 				else
 				{
-					current_row = realloc(current_row, (col + 1) * sizeof(int));
-					check_cols_alloc(current_row);
-					current_row[col] = INT_MAX;
+					(*arr)[*rows] = realloc((*arr)[*rows], (col + 1) * sizeof(int));
+					check_cols_alloc((*arr)[*rows]);
+					(*arr)[*rows][col] = INT_MAX;
 
 					break;
 				}
@@ -90,15 +89,14 @@ void manual_input(int*** arr, int* rows)
 
 			getchar();
 
-			current_row = realloc(current_row, (col + 1) * sizeof(int));
-			check_cols_alloc(current_row);
-			current_row[col] = value;
+			(*arr)[*rows] = realloc((*arr)[*rows], (col + 1) * sizeof(int));
+			check_cols_alloc((*arr)[*rows]);
+			(*arr)[*rows][col] = value;
 			col++;
 		}
 
 		*arr = realloc(*arr, (*rows + 1) * sizeof(int*));
 		check_rows_alloc(*arr);
-		(*arr)[*rows] = current_row;
 		(*rows)++;
 	}
 }
