@@ -52,6 +52,8 @@ void manual_input(int*** arr, int* rows)
 {
 	getchar();
 
+	(*arr)[0] = NULL;
+
 	while (1)
 	{
 		int col = 0;
@@ -98,6 +100,8 @@ void manual_input(int*** arr, int* rows)
 		*arr = realloc(*arr, (*rows + 1) * sizeof(int*));
 		check_rows_alloc(*arr);
 		(*rows)++;
+		
+		(*arr)[*rows] = NULL;
 	}
 }
 
