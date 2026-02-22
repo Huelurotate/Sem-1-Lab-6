@@ -52,16 +52,22 @@ void manual_input(int*** arr, int* rows)
 {
 	getchar();
 
+	(*arr)[0] = NULL;
+
 	while (1)
 	{
-		int* current_row = NULL;
 		int col = 0;
 
 		printf("\nEnter the elements for row number %d(Enter - stop):\n", (*rows + 1));
 
+		*arr = realloc(*arr, (*rows + 1) * sizeof(int*));
+		check_rows_alloc(*arr);
+
+		(*arr)[*rows] = NULL;
+
 		while (1)
 		{
-			int ch_input = getchar();
+			char ch_input = getchar();
 
 			if (ch_input == '\n')
 			{
@@ -71,9 +77,9 @@ void manual_input(int*** arr, int* rows)
 				}
 				else
 				{
-					current_row = realloc(current_row, (col + 1) * sizeof(int));
-					check_cols_alloc(current_row);
-					current_row[col] = INT_MAX;
+					(*arr)[*rows] = realloc((*arr)[*rows], (col + 1) * sizeof(int));
+					check_cols_alloc((*arr)[*rows]);
+					(*arr)[*rows][col] = INT_MAX;
 
 					break;
 				}
@@ -90,15 +96,12 @@ void manual_input(int*** arr, int* rows)
 
 			getchar();
 
-			current_row = realloc(current_row, (col + 1) * sizeof(int));
-			check_cols_alloc(current_row);
-			current_row[col] = value;
+			(*arr)[*rows] = realloc((*arr)[*rows], (col + 1) * sizeof(int));
+			check_cols_alloc((*arr)[*rows]);
+			(*arr)[*rows][col] = value;
 			col++;
 		}
 
-		*arr = realloc(*arr, (*rows + 1) * sizeof(int*));
-		check_rows_alloc(*arr);
-		(*arr)[*rows] = current_row;
 		(*rows)++;
 	}
 }
@@ -113,16 +116,13 @@ void random_input(int*** arr, int* rows)
 	for (int i = 0; i < row_size; i++)
 	{
 		int col_size = (rand() % (RAND_SIZE_MAX - RAND_SIZE_MIN + 1)) + RAND_SIZE_MIN;
-		int* current_row = malloc((col_size + 1) * sizeof(int));
-		check_cols_alloc(current_row);
+		(*arr)[i] = malloc((col_size + 1) * sizeof(int));
+		check_cols_alloc((*arr)[i]);
 
 		for (int j = 0; j < col_size; j++)
-		{
-			current_row[j] = (rand() % (RAND_MAX - RAND_MIN + 1)) + RAND_MIN;
-		}
+			(*arr)[i][j] = (rand() % (RAND_MAX - RAND_MIN + 1)) + RAND_MIN;
 
-		current_row[col_size] = INT_MAX;
-		(*arr)[i] = current_row;
+		(*arr)[i][col_size] = INT_MAX;
 	}
 }
 
@@ -136,9 +136,8 @@ void output(int** arr, int rows, int random_choice)
 	{
 		if (arr[i] == NULL) continue;
 		for (int j = 0; arr[i][j] != INT_MAX; j++)
-		{
 			printf("%5d", arr[i][j]);
-		}
+
 		puts("");
 	}
 }

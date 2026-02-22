@@ -55,7 +55,7 @@ void manual_input(int** arr, int* size)
 	puts("Enter the elements into the array(Enter - stop):");
 	while (1)
 	{
-		int char_input = getchar();
+		char char_input = getchar();
 
 		if (char_input == '\n')
 			return;
